@@ -126,3 +126,28 @@ def deleteU(id):
     return redirect(url_for('indexU'))
 
 
+
+@app.route('/updateU/<id>', methods=['GET', 'POST'])
+def updateU(id):
+    form = UserForm()
+    user = Users.query.get(id)
+    User=Users.query.all()
+
+    if form.validate_on_submit():
+        user.firstName = form.firstName.data
+        user.lastName = form.lastName.data
+
+            
+        db.session.commit()
+        return redirect(url_for('indexU'))
+    elif request.method == 'GET':
+        form.firstName.data = user.firstName 
+        form.lastName.data = user.lastName 
+            
+        return render_template('updateU.html', user=user,form=form)
+    elif request.method == 'POST':
+        user.firstName = form.firstName.data
+        user.lastName = form.lastName.data
+            
+        db.session.commit()
+        return redirect(url_for('indexU'))
