@@ -8,3 +8,9 @@ def index():
     posts = Posts.query.all()
 
     return render_template("task.html", Posts=posts)
+
+@app.route('/indexU')
+def indexU():
+    posts = Users.query.all()
+
+    return render_template("userList.html", Posts=posts)
