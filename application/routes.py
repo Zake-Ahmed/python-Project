@@ -39,3 +39,22 @@ def add():
             db.session.commit()
             return redirect(url_for('index'))
     return render_template('addTask.html', form=form)
+
+@app.route('/update/<id>', methods=['GET', 'POST'])
+def update(id):
+    form = PostForm()
+    post = Posts.query.get(id)
+
+    if form.validate_on_submit():
+        post.message = form.message.data
+            
+        db.session.commit()
+        return redirect(url_for('index'))
+    elif request.method == 'GET':
+        form.message.data = todo.message
+        return render_template('update.html', post=post,form=form)
+    elif request.method == 'POST':
+        post.message = form.message.data
+            
+        db.session.commit()
+        return redirect(url_for('index'))
