@@ -117,7 +117,7 @@ class TestAdd(TestBase):
 
         response = self.client.post(
             url_for('add'),
-            data = dict(message="abc")#,userID=1)
+            data = dict(message="abc",userID=1)
         )
         assert len(Posts.query.all()) == 3
         assert Posts.query.filter_by(message="abc").first().id ==3
