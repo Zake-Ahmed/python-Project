@@ -53,33 +53,52 @@ class TestViews(TestBase):
         response = self.client.get(url_for('index'))
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'root', response.data)
+    def test_indexU_get(self):
+        response = self.client.get(url_for('indexU'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Root', response.data)
 
     def test_about_get(self):
         response = self.client.get(url_for('about'))
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'This is the About Page', response.data)
+    def test_home_get(self):
+        response = self.client.get(url_for('home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Home', response.data)
 
-class TestDislike(TestBase):
-    def test_dislike(self):
-        response = self.client.post(
-            url_for('dislike',id=2),
-            data = dict(message="admin" ,userID=2)
-        )
-        assert Posts.query.get(2).likes == -1
 
 class TestLike(TestBase):
     def test_like(self):
-        response = self.client.post(
-            url_for('like',id=1),
-            data = dict(message="root" ,userID=1,like=0)
+        response = self.client.get(
+            url_for('like',id=2),
+            data = dict(message="admin" ,userID=2,likes=0)
         )
-        assert Posts.query.get(1).likes == 1
-"""
+        assert Posts.query.get(2).likes == 1
+
 class TestDislike(TestBase):
     def test_dislike(self):
-        response = self.client.post(
+        response = self.client.get(
             url_for('dislike',id=1),
-            data = dict(message="root" ,userID=1)
+            data = dict(message="root" ,userID=1,likes=0)
         )
         assert Posts.query.get(1).likes == -1
-"""
+
+class TestDeletePost(TestBase):
+    def test_delete_post(self):
+        # delete Chewbarka from the database
+        response = self.client.get(
+            url_for('delete',id=1),
+            data = dict(message="root" ,userID=1)
+        )
+        assert len(Posts.query.all()) == 1
+
+class TestDeleteUser(TestBase):
+    def test_delete_user(self):
+        # delete Chewbarka from the database
+        response = self.client.get(
+            url_for('deleteU',id=1),
+            data = dict(userName="Root",firstName="root",lastName="root")
+        )
+        assert len(Posts.query.all()) == 1
+        assert len(Users.query.all()) == 1
