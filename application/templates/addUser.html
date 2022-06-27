@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+<head> 
+    <title> Add User </title>
+</head>
+{% block body %}
+<div class="form">
+    <form method="POST", action="">
+        {{ form.hidden_tag() }}
+       <p>{{ form.userName.label }} {{ form.userName}}</p>
+        <br>
+       <p>{{ form.firstName.label }} {{ form.firstName }}</p>
+        <br>
+        <p>{{ form.lastName.label }} {{ form.lastName }}</p>
+        <br>
+        {{ form.submit }}
+        <br>
+        <p>{{error}}</p>
+    </form>
+</div>
+
+{% endblock body %}
