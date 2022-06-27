@@ -86,7 +86,7 @@ class TestDislike(TestBase):
 
 class TestDeletePost(TestBase):
     def test_delete_post(self):
-        # delete Chewbarka from the database
+       
         response = self.client.get(
             url_for('delete',id=1),
             data = dict(message="root" ,userID=1)
@@ -95,10 +95,28 @@ class TestDeletePost(TestBase):
 
 class TestDeleteUser(TestBase):
     def test_delete_user(self):
-        # delete Chewbarka from the database
+        
         response = self.client.get(
             url_for('deleteU',id=1),
             data = dict(userName="Root",firstName="root",lastName="root")
         )
         assert len(Posts.query.all()) == 1
         assert len(Users.query.all()) == 1
+
+class TestAdd(TestBase):
+    def test_add_post(self):
+
+        response = self.client.post(
+            url_for('add'),
+            data = dict(message="root2" ,userID=1)
+        )
+        assert len(Posts.query.all()) == 3
+
+    def test_add_user(self):
+
+        response = self.client.post(
+            url_for('addUser'),
+            data = dict(userName="abc",firstName="abc",lastName="abc")
+        )
+        assert len(Users.query.all()) == 3
+        assert Users.query.filter_by(userName="abc").first().id ==3
