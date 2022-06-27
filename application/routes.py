@@ -7,13 +7,13 @@ from flask import Flask, redirect, url_for, render_template, request
 def index():
     posts = Posts.query.all()
 
-    return render_template("post.html", Posts=posts)
+    return render_template("post.html", Post=posts)
 
 @app.route('/indexU')
 def indexU():
     posts = Users.query.all()
 
-    return render_template("userList.html", Posts=posts)
+    return render_template("userList.html", Post=posts)
 
 @app.route('/about')
 def about():
@@ -106,4 +106,10 @@ def addUser():
             return redirect(url_for('indexU'))
     return render_template('addUser.html', form=form,error="")
 
+@app.route('/user/<id>')
+def user(id):
+    posts = Posts.query.filter_by(userID=id)
+    userName=Users.query.filter_by(id=id).first()
+
+    return render_template("user.html", Post=posts,username=userName.userName,id=id)
 
