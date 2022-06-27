@@ -7,7 +7,7 @@ from flask import Flask, redirect, url_for, render_template, request
 def index():
     posts = Posts.query.all()
 
-    return render_template("task.html", Posts=posts)
+    return render_template("post.html", Posts=posts)
 
 @app.route('/indexU')
 def indexU():
@@ -38,7 +38,7 @@ def add():
             db.session.add(taskData)
             db.session.commit()
             return redirect(url_for('index'))
-    return render_template('addTask.html', form=form)
+    return render_template('addPost.html', form=form)
 
 @app.route('/update/<id>', methods=['GET', 'POST'])
 def update(id):
@@ -58,3 +58,11 @@ def update(id):
             
         db.session.commit()
         return redirect(url_for('index'))
+
+
+@app.route('/delete/<id>')
+def delete(id):
+    post_del =Posts.query.get(id)
+    db.session.delete(post_del)
+    db.session.commit()
+    return redirect(url_for('index'))
