@@ -29,13 +29,13 @@ def add():
     form.user.choices=[(users.id,users.userName) for users in Users.query.all()]
     if request.method == 'POST':
         if form.validate_on_submit():
-            taskData = Posts(
+            postData = Posts(
                 message = form.message.data,
                 userID = form.user.data
                 
             )
             
-            db.session.add(taskData)
+            db.session.add(postData)
             db.session.commit()
             return redirect(url_for('index'))
     return render_template('addPost.html', form=form)

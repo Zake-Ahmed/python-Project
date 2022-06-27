@@ -104,14 +104,6 @@ class TestDeleteUser(TestBase):
         assert len(Users.query.all()) == 1
 
 class TestAdd(TestBase):
-    def test_add_post(self):
-
-        response = self.client.post(
-            url_for('add'),
-            data = dict(message="root2" ,userID=1)
-        )
-        assert len(Posts.query.all()) == 3
-
     def test_add_user(self):
 
         response = self.client.post(
@@ -120,3 +112,31 @@ class TestAdd(TestBase):
         )
         assert len(Users.query.all()) == 3
         assert Users.query.filter_by(userName="abc").first().id ==3
+    
+    def test_add_post(self):
+
+        response = self.client.post(
+            url_for('add'),
+            data = dict(message="root2")
+        )
+        assert len(Posts.query.all()) == 3
+        assert Posts.query.filter_by(message="root2").first().id ==3
+
+class TestUpdate(TestBase):
+    def test_update_user(self):
+
+        response = self.client.post(
+            url_for('updateU',id=1),
+            data = dict(firstName="abc",lastName="abc")
+        )
+        assert len(Users.query.all()) == 2
+        assert Users.query.filter_by(firstName="abc").first().id ==1
+
+    def test_update_post(self):
+
+        response = self.client.post(
+            url_for('update',id=1),
+            data = dict(message="abc")
+        )
+        assert len(Posts.query.all()) == 2
+        assert Posts.query.filter_by(message="abc").first().id ==1
