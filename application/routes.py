@@ -51,7 +51,7 @@ def update(id):
         db.session.commit()
         return redirect(url_for('index'))
     elif request.method == 'GET':
-        form.message.data = todo.message
+        form.message.data = post.message
         return render_template('update.html', post=post,form=form)
     elif request.method == 'POST':
         post.message = form.message.data
