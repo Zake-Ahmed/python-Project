@@ -15,15 +15,15 @@
 <p> Likes: {{ post.likes }} </p>
 
 <div class="center">
-<form action="{{ url_for('delete', id = todo.id) }}"class="form1">
+<form action="{{ url_for('delete', id = post.id) }}"class="form1">
 <button type="Delete"class="submit4">Delete Chirp</button> 
 </form>
 
-<form action="{{ url_for('like', id = todo.id) }}" class="form1">
+<form action="{{ url_for('like', id = post.id) }}" class="form1">
 <button type="Like" class="submit1">Like Chirp</button> </form>
-<form action="{{ url_for('dislike', id = todo.id) }}" class="form1">
+<form action="{{ url_for('dislike', id = post.id) }}" class="form1">
     <button type="Dislike" class="submit2">Dislike Chirp</button> </form>
-<form action="{{ url_for('update', id = todo.id) }}"class="form1">
+<form action="{{ url_for('update', id = post.id) }}"class="form1">
     <button type="Edit" class="submit3">Edit Chirp</button> </form>
 </div></div>
 {% endfor %}
