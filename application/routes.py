@@ -14,3 +14,7 @@ def indexU():
     posts = Users.query.all()
 
     return render_template("userList.html", Posts=posts)
+
+@app.route('/about')
+def about():
+    return render_template("about.html")
