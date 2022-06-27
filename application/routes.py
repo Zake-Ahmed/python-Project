@@ -113,3 +113,16 @@ def user(id):
 
     return render_template("user.html", Post=posts,username=userName.userName,id=id)
 
+@app.route('/deleteU/<id>')
+def deleteU(id):
+    user_del =Users.query.get(id)
+    posts= Posts.query.filter_by(userID=id)
+    for post in posts:
+        db.session.delete(post)
+        db.session.commit()
+
+    db.session.delete(user_del)
+    db.session.commit()
+    return redirect(url_for('indexU'))
+
+
