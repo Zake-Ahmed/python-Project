@@ -66,3 +66,44 @@ def delete(id):
     db.session.delete(post_del)
     db.session.commit()
     return redirect(url_for('index'))
+
+
+@app.route('/like/<id>')
+def like(id):
+    post = Posts.query.get(id)
+    post.likes +=1
+    db.session.commit()
+    return redirect(url_for('index'))
+@app.route('/dislike/<id>')
+def dislike(id):
+    post = Posts.query.get(id)
+    post.likes -=1
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/addUser', methods=['GET', 'POST'])
+def addUser():
+    form = UserForm()
+    User=Users.query.all()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            userData = Users(
+                userName = form.userName.data,
+                firstName = form.firstName.data,
+                lastName = form.lastName.data
+                
+            )
+            
+            for users in User:
+                if users.userName==form.userName.data:
+                    form1 = UserForm()
+                    return render_template('addUser.html', form=form1 , error="User name already taken pick another one :)")
+
+            
+            db.session.add(userData)
+            db.session.commit()
+            return redirect(url_for('indexU'))
+    return render_template('addUser.html', form=form,error="")
+
+
