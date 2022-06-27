@@ -22,3 +22,20 @@ def about():
 @app.route('/')
 def home():
     return render_template("home.html")
+
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    form = PostForm()
+    form.user.choices=[(users.id,users.userName) for users in Users.query.all()]
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            taskData = Posts(
+                message = form.message.data,
+                userID = form.user.data
+                
+            )
+            
+            db.session.add(taskData)
+            db.session.commit()
+            return redirect(url_for('index'))
+    return render_template('addTask.html', form=form)
