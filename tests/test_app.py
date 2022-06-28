@@ -67,6 +67,28 @@ class TestViews(TestBase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Home', response.data)
 
+    def test_userPosts_get(self):
+        response = self.client.get(url_for('user',id=1))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Root\'s Posts', response.data)
+    def test_addTakenUserName_get(self):
+        response = self.client.post(url_for('addUser'),
+        data = dict(userName="Root", firstName="abc",lastName="abc"))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'User name already taken pick another one :)', response.data)
+    def test_addUser_get(self):
+        response = self.client.get(url_for('addUser'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'User Name', response.data)
+    def test_add_get(self):
+        response = self.client.get(url_for('add'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Message', response.data)
+    def test_updateU_get(self):
+        response = self.client.get(url_for('updateU',id=1))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Old First Name', response.data)
+
 
 class TestLike(TestBase):
     def test_like(self):
@@ -131,6 +153,16 @@ class TestUpdate(TestBase):
         )
         assert len(Users.query.all()) == 2
         assert Users.query.filter_by(firstName="abc").first().id ==1
+    
+    
+    def test_update_user2(self):
+
+        response = self.client.get(
+            url_for('updateU',id=2),
+            data = dict(firstName="admin",lastName="admin")
+        )
+        assert len(Users.query.all()) == 2
+        assert Users.query.filter_by(firstName="admin").first().id ==2
 
     def test_update_post(self):
 
@@ -140,3 +172,12 @@ class TestUpdate(TestBase):
         )
         assert len(Posts.query.all()) == 2
         assert Posts.query.filter_by(message="abc").first().id ==1
+
+    def test_update_post2(self):
+
+        response = self.client.get(
+            url_for('update',id=2),
+            data = dict(message="admin")
+        )
+        assert len(Posts.query.all()) == 2
+        assert Posts.query.filter_by(message="admin").first().id ==2

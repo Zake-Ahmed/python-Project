@@ -45,12 +45,7 @@ def update(id):
     form = PostForm()
     post = Posts.query.get(id)
 
-    if form.validate_on_submit():
-        post.message = form.message.data
-            
-        db.session.commit()
-        return redirect(url_for('index'))
-    elif request.method == 'GET':
+    if request.method == 'GET':
         form.message.data = post.message
         return render_template('update.html', post=post,form=form)
     elif request.method == 'POST':
@@ -145,9 +140,3 @@ def updateU(id):
         form.lastName.data = user.lastName 
             
         return render_template('updateU.html', user=user,form=form)
-    elif request.method == 'POST':
-        user.firstName = form.firstName.data
-        user.lastName = form.lastName.data
-            
-        db.session.commit()
-        return redirect(url_for('indexU'))
