@@ -127,14 +127,14 @@ def updateU(id):
     form = UserForm()
     user = Users.query.get(id)
     User=Users.query.all()
-
-    if form.validate_on_submit():
-        user.firstName = form.firstName.data
-        user.lastName = form.lastName.data
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user.firstName = form.firstName.data
+            user.lastName = form.lastName.data
 
             
-        db.session.commit()
-        return redirect(url_for('indexU'))
+            db.session.commit()
+            return redirect(url_for('indexU'))
     elif request.method == 'GET':
         form.firstName.data = user.firstName 
         form.lastName.data = user.lastName 
