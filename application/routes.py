@@ -1,6 +1,6 @@
 from application import app, db
-from application.models import ToDo,Users,Posts
-from application.forms import TaskForm ,PostForm,UserForm
+from application.models import Users,Posts
+from application.forms import PostForm,UserForm
 from flask import Flask, redirect, url_for, render_template, request
 
 @app.route('/index')
@@ -28,16 +28,16 @@ def add():
     form = PostForm()
     form.user.choices=[(users.id,users.userName) for users in Users.query.all()]
     if request.method == 'POST':
-        if form.validate_on_submit():
-            taskData = Posts(
-                message = form.message.data,
-                userID = form.user.data
+        #if form.validate_on_submit():
+        postData = Posts(
+            message = form.message.data,
+            userID = form.user.data
                 
-            )
+        )
             
-            db.session.add(taskData)
-            db.session.commit()
-            return redirect(url_for('index'))
+        db.session.add(postData)
+        db.session.commit()
+        return redirect(url_for('index'))
     return render_template('addPost.html', form=form)
 
 @app.route('/update/<id>', methods=['GET', 'POST'])
@@ -45,13 +45,8 @@ def update(id):
     form = PostForm()
     post = Posts.query.get(id)
 
-    if form.validate_on_submit():
-        post.message = form.message.data
-            
-        db.session.commit()
-        return redirect(url_for('index'))
-    elif request.method == 'GET':
-        form.message.data = todo.message
+    if request.method == 'GET':
+        form.message.data = post.message
         return render_template('update.html', post=post,form=form)
     elif request.method == 'POST':
         post.message = form.message.data
@@ -132,22 +127,16 @@ def updateU(id):
     form = UserForm()
     user = Users.query.get(id)
     User=Users.query.all()
-
-    if form.validate_on_submit():
-        user.firstName = form.firstName.data
-        user.lastName = form.lastName.data
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user.firstName = form.firstName.data
+            user.lastName = form.lastName.data
 
             
-        db.session.commit()
-        return redirect(url_for('indexU'))
+            db.session.commit()
+            return redirect(url_for('indexU'))
     elif request.method == 'GET':
         form.firstName.data = user.firstName 
         form.lastName.data = user.lastName 
             
         return render_template('updateU.html', user=user,form=form)
-    elif request.method == 'POST':
-        user.firstName = form.firstName.data
-        user.lastName = form.lastName.data
-            
-        db.session.commit()
-        return redirect(url_for('indexU'))
