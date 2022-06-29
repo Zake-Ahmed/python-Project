@@ -1,7 +1,11 @@
 #!/bin/bash
 if type apt > /dev/null; then
     pkg_mgr=apt
-    java="openjdk-8-jre"
+    if [ $(uname -v) == *Debian* ]; then
+      java="default-jre"
+    else
+      java="openjdk-11-jre"
+    fi
 elif type yum /dev/null; then
     pkg_mgr=yum
     java="java"
@@ -17,12 +21,10 @@ echo "setting up jenkins service"
 sudo tee /etc/systemd/system/jenkins.service << EOF > /dev/null
 [Unit]
 Description=Jenkins Server
-
 [Service]
 User=jenkins
 WorkingDirectory=/home/jenkins
 ExecStart=/usr/bin/java -jar /home/jenkins/jenkins.war
-
 [Install]
 WantedBy=multi-user.target
 EOF
