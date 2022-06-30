@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block body %} 
 <div class="content">
-{% if Post != None %}
 {% for post in Post %}
 
 <div class="post">
@@ -28,6 +27,5 @@
     <button type="Edit" class="submit3">Edit Chirp</button> </form>
 </div></div>
 {% endfor %}
-{% endif %}
 </div>
 {% endblock body%}
