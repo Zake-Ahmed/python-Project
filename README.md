@@ -20,95 +20,80 @@ GCP Account - https://cloud.google.com
 ```
 ## Set up application on personal VM
 
-Make sure to folk this repositry Zake-Ahmed/python-Project.
-Go on GCP and create an account, gives you $300 of free credit.
-Create firewall rules to open ports 5000 and ports 8080, making sure port 5000 is open to all id addresses.
-Create VM making sure its an medium with ubuntu.
-Open visual studio and open the .ssh/config file.
-Create a new user with the hostname being the VM IP address.
-Delete the file .ssh/known_hosts.
-Run commands ssh-keygen making sure to press enter when prompted.
-Run cat .ssh/id_rsa.pub, copy output and edit VM to have this ssh key.
-Then connect to vm using open a remote window button, then connect to host.
-once connected to the vm run both ssh-keygen and cat .ssh/id_rsa.pub like before copying the key generated.
-paste key into github account under ssh and gpg keys in the settings. 
-Then git clone repo on to vm using git clone <repo-ssh-link>.
-Then the setup.sh file using the ./setup.sh command.
-Once you VM has been updated run chmod +x jenkins.sh and ./jenkins.sh.
-Then copy the inital admin password and visit the VM on port 8080, and paste admin password.
-Install suggested plugins.
-Create admin user,contiune with next until welcome page reached.
-Run sudo visudo in VM terminal and add %jenkins ALL=(ALL:ALL) NOPASSWD:ALL under sudo user.
-Visit the jenkins page and craete a new job making sure to add your github links and select the correct branch to build.
-Then copy the contents of the jenkinsExecute.txt file in to the execute shell of the job.
-Then save and press build now to get application up and running.
+Make sure to folk this repositry Zake-Ahmed/python-Project. \
+Go on GCP and create an account, gives you $300 of free credit. \
+Create firewall rules to open ports 5000 and ports 8080, making sure port 5000 is open to all id addresses. \
+Create VM making sure its an medium with ubuntu. \
+Open visual studio and open the .ssh/config file. \
+Create a new user with the hostname being the VM IP address. \
+Delete the file .ssh/known_hosts. \
+Run commands ssh-keygen making sure to press enter when prompted. \
+Run cat .ssh/id_rsa.pub, copy output and edit VM to have this ssh key. \
+Then connect to vm using open a remote window button, then connect to host. \
+once connected to the vm run both ssh-keygen and cat .ssh/id_rsa.pub like before copying the key generated. \
+paste key into github account under ssh and gpg keys in the settings. \
+Then git clone repo on to vm using git clone <repo-ssh-link>. \
+Then the setup.sh file using the ./setup.sh command. \
+Once you VM has been updated run chmod +x jenkins.sh and ./jenkins.sh. \
+Then copy the inital admin password and visit the VM on port 8080, and paste admin password. \
+Install suggested plugins. \
+Create admin user,contiune with next until welcome page reached. \
+Run sudo visudo in VM terminal and add %jenkins ALL=(ALL:ALL) NOPASSWD:ALL under sudo user. \
+Visit the jenkins page and craete a new job making sure to add your github links and select the correct branch to build. \
+Then copy the contents of the jenkinsExecute.txt file in to the execute shell of the job. \
+Then save and press build now to get application up and running. \
 Visit the VM on port 5000 to use the application.
-```
+
 
 ## Running the tests
+Jenkins will auto run the tests using the command
+```
+python3 -m pytest --cov-report term-missing --cov application/ tests/
 
-Explain how to run the automated tests for this system. Break down into which tests and what they do
+```
 
 ### Unit Tests 
 
-Standard unit test on the DAO methods which is the back-bone of the application. It is where all the connection is happening between java and mySQL, inputing and updating the database.
+Standard unit test on the html page testing if a GET request is made.
 
 ```
-@Test 
-	public void testCreate() {
-		final Item created = new Item(2L, "Car ", 1000.00D);
-		assertEquals(created, DAO.create(created));
-	}
+class TestViews(TestBase):
+    def test_about_get(self):
+        response = self.client.get(url_for('about'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'This is the About Page', response.data)
 ```
 
 ### Integration Tests 
-Mockito is used for integration testing, this is to mock the methods to test the controller is working for each object and each method called in the controller.
+The Intergration Tests are testing the intergration of the database on top of the application. When adding a Post of example this method will test if the new post is added to the database or not and is it viewable on the webpage as well.
+
 
 ```
+class TestAdd(TestBase):
+    def test_add_user(self):
 
-	@Mock
-	private Utils utils;
+        response = self.client.post(
+            url_for('addUser'),
+            data = dict(userName="abc",firstName="abc",lastName="abc")
+        )
+        assert len(Users.query.all()) == 3
+        assert Users.query.filter_by(userName="abc").first().id ==3
+    
+    def test_add_post(self):
 
-	@Mock
-	private ItemDAO dao;
-
-	@InjectMocks
-	private ItemController controller;
-	
-	@Test
-	public void testCreate() {
-		final String name = "watch";
-		final double price = 10;
-		final Item created = new Item(name, price);
-
-		Mockito.when(utils.getString()).thenReturn(name);
-		Mockito.when(utils.getDouble()).thenReturn(price);
-		Mockito.when(dao.create(created)).thenReturn(created);
-
-		assertEquals(created, controller.create());
-
-		Mockito.verify(utils, Mockito.times(1)).getString();
-		Mockito.verify(utils, Mockito.times(1)).getDouble();
-		Mockito.verify(dao, Mockito.times(1)).create(created);
-	}
+        response = self.client.post(
+            url_for('add'),
+            data = dict(message="abc",userID=1)
+        )
+        assert len(Posts.query.all()) == 3
+        assert Posts.query.filter_by(message="abc").first().id ==3
 ```
-
-
-## Deployment
-
-Run maven clean package to make a new .jar file if any changes was made to the code.
-
 ## Built With
 
-* [Maven](https://maven.apache.org/) - Dependency Management
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning.
+* [Jenkins](https://www.jenkins.io) - CI Server
 
 ## Authors
 
-* **Chris Perrins** - *Initial work* - [christophperrins](https://github.com/christophperrins)
 * **Zake Ahmed** - *Completed work* - [Zake-Ahmed](https://github.com/Zake-Ahmed)
 
 ## License
@@ -119,6 +104,6 @@ This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* ME
+* MYSELF
+* I
