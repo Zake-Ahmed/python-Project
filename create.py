@@ -4,6 +4,7 @@ from application.models import Users,Posts
 db.drop_all()
 db.create_all()
 
+
 rootUser = Users(userName="Root",firstName="root",lastName="root")
 db.session.add(rootUser)
 db.session.commit()
