@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %} 
+<div class="content">
+{% for post in Post %}
+
+<div class="post">
+<p> ID: {{post.id}} </p>
+<p class="title">
+    <a href="{{ url_for('user', id = post.id) }}">
+    User:{{ post.userName }}
+    </a>
+</p>
+</b>
+
+
+<div class="center">
+<p>First Name:{{ post.firstName }} </p>
+<p> Last Name: {{ post.lastName }} </p>
+<form action="{{ url_for('deleteU', id = post.id) }}"class="form1">
+<button type="Delete"class="submit4">Delete User</button> 
+</form>
+<form action="{{ url_for('updateU', id = post.id) }}"class="form1">
+    <button type="Edit" class="submit3">Edit User</button> </form>
+</div></div>
+{% endfor %}
+</div>
+{% endblock body%}
