@@ -1,7 +1,10 @@
-Coverage: 100%
+
+
 # python-Project
 
-This is a project to create a bare-bones social media application. Functionality inculudes ablility to create a user,update a user, read all user and delete user. The same can be one for posts done by a user. Can also view all posts done by a particular user. 
+This is a project to create a bare-bones social media application. Functionality inculudes ablility to create a user,update a user, read all user and delete user. The same can be one for posts done by a user. Can also view all posts done by a particular user. \
+Coverage: 100% \
+![image](https://user-images.githubusercontent.com/103320664/177106180-b4770614-8e7b-4906-97e9-33afb928d2fd.png)
 
 ## Getting Started
 
