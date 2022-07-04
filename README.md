@@ -24,23 +24,23 @@ Make sure to folk this repositry Zake-Ahmed/python-Project. \
 Go on GCP and create an account, gives you $300 of free credit. \
 Create firewall rules to open ports 5000 and ports 8080, making sure port 5000 is open to all id addresses. \
 Create VM making sure its an medium with ubuntu. \
-Open visual studio and open the .ssh/config file. \
+Open visual studio and open the ```.ssh/config file```. \
 Create a new user with the hostname being the VM IP address. \
-Delete the file .ssh/known_hosts. \
-Run commands ssh-keygen making sure to press enter when prompted. \
-Run cat .ssh/id_rsa.pub, copy output and edit VM to have this ssh key. \
+Delete the file ```.ssh/known_hosts```. \
+Run commands ```ssh-keygen``` making sure to press enter when prompted. \
+Run cat ```.ssh/id_rsa.pub```, copy output and edit VM to have this ssh key. \
 Then connect to vm using open a remote window button, then connect to host. \
-once connected to the vm run both ssh-keygen and cat .ssh/id_rsa.pub like before copying the key generated. \
+once connected to the vm run both ```ssh-keygen``` and ```cat .ssh/id_rsa.pub``` like before copying the key generated. \
 paste key into github account under ssh and gpg keys in the settings. \
 Then git clone repo on to vm using git clone <repo-ssh-link>. \
-Then the setup.sh file using the ./setup.sh command. \
-Once you VM has been updated run chmod +x jenkins.sh and ./jenkins.sh. \
+Then the setup.sh file using the ```./setup.sh``` command. \
+Once you VM has been updated run ```chmod +x jenkins.sh``` and ```./jenkins.sh```. \
 Then copy the inital admin password and visit the VM on port 8080, and paste admin password. \
 Install suggested plugins. \
 Create admin user,contiune with next until welcome page reached. \
-Run sudo visudo in VM terminal and add %jenkins ALL=(ALL:ALL) NOPASSWD:ALL under sudo user. \
+Run sudo visudo in VM terminal and add ```%jenkins ALL=(ALL:ALL) NOPASSWD:ALL``` under sudo user. \
 Visit the jenkins page and craete a new job making sure to add your github links and select the correct branch to build. \
-Then copy the contents of the jenkinsExecute.txt file in to the execute shell of the job. \
+Then copy the contents of the ```jenkinsExecute.txt``` file in to the execute shell of the job. \
 Then save and press build now to get application up and running. \
 Visit the VM on port 5000 to use the application.
 
