@@ -6,6 +6,9 @@ services:
     - target: 5000
       published: 5000
       protocol: tcp
+    depends_on:
+    - "db"
+    
   nginx:
     image: nginx:latest
     container_name: nginx2
