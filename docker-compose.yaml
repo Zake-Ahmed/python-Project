@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  flask-app:
+    build: /home/zake3/python-Project
+    ports:
+    - target: 5000
+      published: 5000
+      protocol: tcp
+  nginx:
+    image: nginx:latest
+    container_name: nginx2
+    depends_on:
+    - "db"
+    ports:
+    - target: 80
+      published: 80
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: ./nginx/nginx.conf
+      target: /etc/nginx/nginx.conf
+  db:
+    build: ./db
+    container_name: mysql2
+    volumes:
+    - type: volume
+      source: dbvol
+      target: /var/lib/mysql
+volumes:
+  dbvol:  
