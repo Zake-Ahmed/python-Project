@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   flask-app:
-    build: /home/zake3/python-Project
+    build: ./
     ports:
     - target: 5000
       published: 5000
